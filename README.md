@@ -1,58 +1,68 @@
-# Heart Disease Patient Outcome Prediction — Project Report
+# Heart Disease Patient Outcome Prediction
 
-## Executive summary
+An end-to-end healthcare data science portfolio project that predicts the presence of heart disease from clinical attributes in the UCI Cleveland dataset.
 
-This project develops a classification workflow to estimate whether a patient record shows evidence of heart disease. It uses the Cleveland subset of the UCI Heart Disease dataset and compares five machine-learning algorithms. The purpose is applied learning and portfolio demonstration, not clinical diagnosis.
+## Project objective
 
-## Problem statement
+Build a reproducible classification workflow, compare multiple algorithms, evaluate medically meaningful errors, and communicate results through an interactive dashboard.
 
-Healthcare teams may use risk-screening tools to prioritize patients for further assessment. The analytical goal is to distinguish positive and negative heart-disease outcomes while paying particular attention to false negatives.
+## Dataset
 
-## Data and preparation
+- Source: [UCI Heart Disease dataset](https://archive.ics.uci.edu/dataset/45/heart+disease)
+- Subset: Cleveland
+- Rows: 303 patient records
+- Inputs: 13 demographic and clinical attributes
+- Target: `heart_disease` — 0 for absence and 1 for presence (original diagnosis codes 1–4 are combined)
 
-The dataset contains 303 records, 13 predictor variables, and an original diagnosis field ranging from 0 to 4. Diagnosis 0 is converted to the negative class; values 1–4 form the positive class. Question-mark values are interpreted as missing. Numerical values are median-imputed and standardized; categorical values are mode-imputed and one-hot encoded. All transformations occur inside model pipelines to prevent leakage.
+## Workflow
 
-## Analysis and modelling
+1. Define the problem and evaluation criteria.
+2. Load and audit the data.
+3. Remove duplicates and convert the target to binary form.
+4. Explore outcome prevalence, distributions, group differences, and correlations.
+5. Split the data with stratification.
+6. Impute, scale, and encode features inside a leakage-safe pipeline.
+7. Compare Logistic Regression, KNN, Decision Tree, Random Forest, and Gradient Boosting using five-fold cross-validation.
+8. Evaluate the selected model using recall, F1-score, ROC-AUC, confusion matrix, ROC curve, and precision–recall curve.
+9. Examine probability-threshold trade-offs and permutation importance.
+10. Present findings in a Streamlit dashboard.
 
-Exploratory analysis covers class prevalence, numeric distributions, outcome-group box plots, and correlations. Logistic Regression, K-Nearest Neighbours, Decision Tree, Random Forest, and Gradient Boosting are compared using stratified five-fold cross-validation. Model selection considers recall, F1-score, and ROC-AUC rather than accuracy alone.
+## Project structure
 
-The final test evaluation includes a classification report, confusion matrix, ROC curve, and precision–recall curve. A threshold analysis shows how changing the probability cut-off affects precision and recall. Permutation importance identifies the inputs that most affect predictive performance without claiming causal relationships.
+```text
+heart_disease_prediction_project/
+├── Heart_Disease_Prediction.ipynb
+├── heart_disease_cleveland.csv
+├── app.py
+├── README.md
+├── REPORT.md
+├── requirements.txt
+└── .gitignore
+```
 
-## Verified model results
+## Evaluation approach
 
-| Model | CV accuracy | CV recall | CV F1 | CV ROC-AUC |
-|---|---:|---:|---:|---:|
-| Logistic Regression | 0.847 | 0.819 | 0.831 | 0.907 |
-| Random Forest | 0.802 | 0.783 | 0.781 | 0.898 |
-| KNN | 0.818 | 0.747 | 0.790 | 0.883 |
-| Gradient Boosting | 0.802 | 0.775 | 0.781 | 0.854 |
-| Decision Tree | 0.711 | 0.701 | 0.687 | 0.774 |
+Accuracy is included but is not sufficient for a health-screening problem. Recall is emphasized because a false negative means failing to flag a patient who has the positive outcome. ROC-AUC and F1-score provide complementary measures, while the confusion matrix makes each error type visible.
 
-Logistic Regression was selected because it recorded the highest mean cross-validated ROC-AUC. At the default 0.50 threshold, its held-out test metrics were accuracy **0.869**, precision **0.812**, recall **0.929**, F1-score **0.867**, and ROC-AUC **0.958**. The test set contains only 61 records, so these values should be treated as an illustrative estimate rather than a stable clinical-performance claim.
+## Verified results (random state 42)
 
-## Business and clinical interpretation
+Logistic Regression ranked first in five-fold cross-validation with mean ROC-AUC **0.907**. On the 61-record held-out test set it achieved **0.869 accuracy**, **0.929 recall**, **0.867 F1-score**, and **0.958 ROC-AUC**. These figures are promising for a learning project but are not evidence of clinical validity because the dataset is small.
 
-- Higher recall reduces the number of positive cases missed by the model, but usually increases false alarms.
-- Threshold selection is a policy decision and must reflect the cost of each error type.
-- Feature importance helps explain model behaviour but does not prove that a variable causes heart disease.
-- An interactive dashboard makes aggregate patterns and individual demonstration predictions easier to communicate.
+## Key portfolio strengths
 
-## Limitations
+- Real clinical dataset with documented provenance
+- End-to-end, leakage-safe machine-learning pipeline
+- Five-model cross-validation comparison
+- Error and decision-threshold analysis
+- Model-agnostic feature importance
+- Interactive patient-input dashboard
+- Clear limitations and responsible-use statement
 
-- The sample is small and historical.
-- The data comes from a limited clinical setting and may not represent other populations.
-- A single train/test experiment cannot establish clinical validity.
-- Subgroup fairness, probability calibration, temporal stability, and external validation are required before considering operational use.
-- The model cannot replace professional medical judgment.
+## Responsible-use statement
 
-## Conclusion
+This model is an educational demonstration. The dataset is small, historical, and geographically limited. The project is not a medical device and must not be used for diagnosis, treatment, or individual healthcare decisions. Real deployment would require clinical oversight, external validation, calibration, fairness testing, security, privacy safeguards, and regulatory review.
 
-The project demonstrates a complete healthcare machine-learning workflow: auditable cleaning, visual exploration, leakage-safe preprocessing, cross-validated model comparison, error analysis, explainability, dashboard communication, and responsible reporting. Its value is educational and methodological rather than diagnostic.
+## Author
 
-## Recommended next steps
-
-1. Validate the selected model on a larger and more recent external dataset.
-2. Assess calibration and report confidence intervals.
-3. Compare performance across demographic subgroups.
-4. Tune the operating threshold with domain experts.
-5. Add monitoring for data drift and model degradation if a governed pilot is approved.
+**Ankan Chowdhury**  
+Aspiring Data Analyst | SQL • Power BI • Python • Excel • Tableau
