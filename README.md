@@ -2,6 +2,21 @@
 
 An end-to-end healthcare data science portfolio project that predicts the presence of heart disease from clinical attributes in the UCI Cleveland dataset.
 
+## 🌐 Live Interactive Dashboard
+
+Explore the complete Heart Disease Patient Outcome Prediction dashboard:
+
+👉 [Open Live Streamlit Dashboard](https://qz44e9uq2ch3p5buumpan4.streamlit.app/)
+
+The dashboard allows users to:
+
+- Explore patient and outcome distributions
+- Analyze important clinical features
+- Enter patient measurements
+- Generate a model-based risk probability
+
+> **Disclaimer:** This dashboard is created for educational purposes only. It is not intended for medical diagnosis or treatment.
+
 ## Project objective
 
 Build a reproducible classification workflow, compare multiple algorithms, evaluate medically meaningful errors, and communicate results through an interactive dashboard.
